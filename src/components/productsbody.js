@@ -6,6 +6,7 @@ import { fetchData } from '../store/actions.js';
 
 
 const ProductsBody = (props) => {
+
     // let initialstate = {
 
     // }
@@ -14,18 +15,20 @@ const ProductsBody = (props) => {
     // console.log(equipment_type)
 
 
-    console.log(props)
 
-    useEffect(() => {
-        // axios
-        // .get('https://bamazonbackend.herokuapp.com/products')
-        // .then(res => {
-        //     console.log(res.data)
-        //     setListings(
-        //         res.data
-        //     )
-        // })
-        props.fetchData();
+
+
+    // axios
+    // .get('https://bamazonbackend.herokuapp.com/products')
+    // .then(res => {
+    //     console.log(res.data)
+    //     setListings(
+    //         res.data
+    //     )
+    // })
+    useEffect((props) => {
+        console.log(props)
+        fetchData();
     }, [])
     // console.log(listings)
     // if (listings === initialstate) {
