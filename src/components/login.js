@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { getUser } from '../store/actions';
+// import { useHistory } from 'react-router-dom';
+// import { connect } from 'react-redux';
+// import { getUser } from '../store/actions';
 const Login = (props) => {
-    const { push } = useHistory()
+    // const { push } = useHistory()
 
     const initialForm = {
         username: '',
@@ -13,25 +13,21 @@ const Login = (props) => {
     const [formValues, setFormValues] = useState(initialForm)
 
 
-
     const handleChange = (e) => {
         setFormValues({
             ...formValues,
             [e.target.name]: e.target.value
         })
-
     }
 
     const handleSubmit = (e) => {
         e.prevent.default();
-        console.log(formValues)
         axios
             .post('https://bamazonbackend.herokuapp.com/users/login', formValues)
             .then(res => {
                 localStorage.setItem('token', res.data.token)
                 props.getUser(res.data.user)
-
-                push('/profile')
+                window.location.href = '/profile'
             })
             .catch(err => {
                 console.log(`error: ${err.response}`)
@@ -40,7 +36,7 @@ const Login = (props) => {
     return (
         <div className="window">
             <div className="wrapper">
-                <form className="loginForm" onSubmit={handleSubmit}>
+                <form className="loginForm">
 
 
                     <div className="formcontent">
@@ -73,7 +69,7 @@ const Login = (props) => {
                             </input>
 
                         </div>
-                        <button className="loginbutton" >continue</button>
+                        <button className="loginbutton" onClick={handleSubmit}>continue</button>
                     </div>
                 </form>
 
@@ -84,9 +80,10 @@ const Login = (props) => {
     )
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getUser: (user) => dispatch(getUser(user))
-    }
-}
-export default connect(null, mapDispatchToProps)(Login)
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         getUser: (user) => dispatch(getUser(user))
+//     }
+// }
+// export default connect(null, mapDispatchToProps)(Login)
+export default Login

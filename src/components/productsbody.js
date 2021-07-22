@@ -27,8 +27,8 @@ const ProductsBody = (props) => {
     //     )
     // })
     useEffect((props) => {
-        console.log(props)
-        fetchData();
+
+        fetchData(props);
     }, [])
     // console.log(listings)
     // if (listings === initialstate) {
