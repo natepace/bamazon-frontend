@@ -26,10 +26,10 @@ const ProductsBody = (props) => {
     //         res.data
     //     )
     // })
-    useEffect((props) => {
-
-        fetchData(props);
-    }, [])
+    useEffect(() => {
+        console.log(props)
+        props.fetchData();
+    }, [])//eslint-disable-line
     // console.log(listings)
     // if (listings === initialstate) {
     //     return (
