@@ -26,7 +26,7 @@ const ProductsBody = (props) => {
         //     )
         // })
         props.fetchData();
-    })
+    }, [])
     // console.log(listings)
     // if (listings === initialstate) {
     //     return (
