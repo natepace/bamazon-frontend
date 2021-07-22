@@ -1,42 +1,46 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { Listing } from './listing.js'
+import React, { useEffect } from 'react'
+// import axios from 'axios'
+import { Listing } from './listing.js';
+import { connect } from 'react-redux';
+import { fetchData } from '../store/actions.js';
 
 
+const ProductsBody = (props) => {
+    // let initialstate = {
 
-export const ProductsBody = (props) => {
-    let initialstate = {
-
-    }
-    const [listings, setListings] = useState(initialstate)
-    const { equipment_type } = props
-    console.log(equipment_type)
-
+    // }
+    // const [listings, setListings] = useState(initialstate)
+    // const { equipment_type } = props
+    // console.log(equipment_type)
 
 
+    console.log(props)
 
     useEffect(() => {
-        axios
-            .get('https://bamazonbackend.herokuapp.com/products')
-            .then(res => {
-                console.log(res.data)
-                setListings(
-                    res.data
-                )
-            })
-    }, [])
-    console.log(listings)
-    if (listings === initialstate) {
-        return (
-            <div></div>
-        )
-    }
-
+        // axios
+        // .get('https://bamazonbackend.herokuapp.com/products')
+        // .then(res => {
+        //     console.log(res.data)
+        //     setListings(
+        //         res.data
+        //     )
+        // })
+        props.fetchData();
+    })
+    // console.log(listings)
+    // if (listings === initialstate) {
+    //     return (
+    //         <div></div>
+    //     )
+    // }
+    console.log(props.products)
 
     return (
         <div className="wrapper">
             <div className="listings">
-                {listings.map(listing => {
+                {props.isLoading ? <h1>l o a d i n g . . .</h1> : null}
+                {props.error ? <h1>{props.error}</h1> : null}
+                {props.products.map(listing => {
                     return (
                         // <p>{listing.product_name}</p>
                         <Listing listing={listing} />
@@ -46,3 +50,12 @@ export const ProductsBody = (props) => {
         </div>
     )
 }
+const mapStateToProps = state => {
+    return {
+        isLoading: state.isLoading,
+        products: state.products,
+        error: state.error
+    }
+}
+
+export default connect(mapStateToProps, { fetchData })(ProductsBody)

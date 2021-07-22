@@ -1,10 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getUser } from '../store/actions';
+const Login = (props) => {
+    const { push } = useHistory()
 
-export const Login = () => {
+    const initialForm = {
+        username: '',
+        password: ''
+    }
+    const [formValues, setFormValues] = useState(initialForm)
+
+
+
+    const handleChange = (e) => {
+        setFormValues({
+            ...formValues,
+            [e.target.name]: e.target.value
+        })
+
+    }
+
+    const handleSubmit = (e) => {
+        e.prevent.default();
+        console.log(formValues)
+        axios
+            .post('https://bamazonbackend.herokuapp.com/users/login', formValues)
+            .then(res => {
+                localStorage.setItem('token', res.data.token)
+                props.getUser(res.data.user)
+
+                push('/profile')
+            })
+            .catch(err => {
+                console.log(`error: ${err.response}`)
+            })
+    }
     return (
         <div className="window">
             <div className="wrapper">
-                <form className="loginForm">
+                <form className="loginForm" onSubmit={handleSubmit}>
 
 
                     <div className="formcontent">
@@ -13,7 +49,13 @@ export const Login = () => {
                             <label>
                                 username
                             </label>
-                            <input>
+                            <input
+                                name='username'
+                                type='text'
+                                placeholder='enter username here'
+                                value={formValues.username}
+                                onChange={handleChange}
+                            >
                             </input>
 
                         </div>
@@ -21,11 +63,17 @@ export const Login = () => {
                             <label>
                                 password
                             </label>
-                            <input>
+                            <input
+                                name='password'
+                                type='password'
+                                placeholder='enter password here'
+                                value={formValues.password}
+                                onChange={handleChange}
+                            >
                             </input>
 
                         </div>
-                        <button className="loginbutton">continue</button>
+                        <button className="loginbutton" >continue</button>
                     </div>
                 </form>
 
@@ -35,3 +83,10 @@ export const Login = () => {
         </div>
     )
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getUser: (user) => dispatch(getUser(user))
+    }
+}
+export default connect(null, mapDispatchToProps)(Login)

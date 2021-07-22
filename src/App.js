@@ -1,8 +1,10 @@
 import './App.css';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Navbar } from './components/navbar.js';
-import { ProductsBody } from './components/productsbody.js';
-import { Login } from './components/login.js';
+import ProductsBody from './components/productsbody.js';
+import Login from './components/login.js';
+import { Profile } from './components/profile.js'
+import ProtectedRoute from './utils/protectedroute.js';
 function App() {
   return (
 
@@ -44,6 +46,8 @@ function App() {
               <ProductsBody {...props} equipment_type={'toys'} />
             )}
           />
+
+          <ProtectedRoute path='/profile' component={Profile} />
         </Switch>
 
       </div>
